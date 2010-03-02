@@ -1,1 +1,11 @@
 Initial project taken from: http://jira.codehaus.org/browse/JRUBY-191
+
+To use this library (lib/win32ole.jar):
+
+brian@ORION$ jruby -J-Djava.library.path=lib -I lib -S examples\use_excel.rb
+
+The JACOB DLLs must be part of the 'java.library.path' and the jacob.jar must be
+on the JRuby classpath (using -I).
+
+At this time we don't need the jacob_v1.13.dll, jacob_v1.13.jar, and old_win32ole.rb
+files.  These will be removed shortly.
