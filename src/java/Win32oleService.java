@@ -11,12 +11,10 @@ import win32ole.WIN32OLE;
 
 public class Win32oleService implements BasicLibraryService {
     public boolean basicLoad(Ruby runtime) {
-    	System.out.println("java.library.path => " + System.getProperty("java.library.path"));
     	RubyClass win32ole = 
     		runtime.defineClass("WIN32OLE", runtime.getObject(), WIN32OLE_ALLOCATOR);
-//    	win32ole.includeModule(runtime.getModule("Enumerable"));
     	win32ole.defineAnnotatedMethods(WIN32OLE.class);
-        return false;
+        return true;
     }
     
     private static ObjectAllocator WIN32OLE_ALLOCATOR = new ObjectAllocator() {

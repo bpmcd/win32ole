@@ -14,6 +14,7 @@ import com.jacob.com.ComException;
 import com.jacob.com.Dispatch;
 import com.jacob.com.Variant;
 import org.jruby.RubyArray;
+import org.jruby.anno.JRubyClass;
 import org.jruby.runtime.ThreadContext;
 import org.jruby.runtime.Visibility;
 
@@ -35,8 +36,9 @@ import org.jruby.runtime.Visibility;
  * The "host" argument is not supported by Jacob...
  *
  * @author Rui Lopes (rgl ruilopes com)
+ * @author Brian McDevitt
  */
-
+@JRubyClass(name="WIN32OLE", parent="RubyObject")
 public class WIN32OLE extends RubyObject {
     private static final long serialVersionUID = 1L;
     protected Dispatch dispatch;
@@ -60,16 +62,16 @@ public class WIN32OLE extends RubyObject {
     	if (com == null) {
     		return cls.getRuntime().getNil();
     	}
-    	return new WIN32OLE(cls.getRuntime(), cls.getType(), com.getObject());
+    	return new WIN32OLE(cls.getRuntime(), (RubyClass) cls, com.getObject());
     }
-    
-    @JRubyMethod(name = "method_missing", meta = true, rest = true, frame = true, module = true, visibility = Visibility.PRIVATE)
-    public static IRubyObject methodMissing(ThreadContext context, IRubyObject self, IRubyObject[] args, Block block) {
+
+    @JRubyMethod(name = "method_missing", rest = true) //, module = true)
+    public IRubyObject method_missing(ThreadContext context, IRubyObject[] args, Block block) {
+        System.out.println("entering WIN32OLE.'method_missing'");
         if (args.length < 1)
             throw context.getRuntime().newArgumentError("Too few arguments (0 for 1)");
         // TODO make sure no block was given?
 
-        WIN32OLE cls = (WIN32OLE) self;
         String name = args[0].asJavaString();
 
         // remove the property/method name from args.
@@ -84,11 +86,11 @@ public class WIN32OLE extends RubyObject {
                     throw context.getRuntime().newArgumentError("Too many arguments (" + args.length + " for 1)");
                 name = name.substring(0, name.length()-1);
                 Object value = rubyToJacob(args[0]);
-                Dispatch.put(cls.getDispatch(), name, value);
+                Dispatch.put(getDispatch(), name, value);
                 return context.getRuntime().getNil();
             } else {
                 // Property get, or Method call.
-                return jacobToRuby(context, Dispatch.callN(cls.getDispatch(), name, rubyToJacob(args)));
+                return jacobToRuby(context, Dispatch.callN(getDispatch(), name, rubyToJacob(args)));
             }
         } catch (ComException e) {
             // TODO try to raise a better exception type.
@@ -96,7 +98,7 @@ public class WIN32OLE extends RubyObject {
             RubyArray array = RubyArray.newArrayNoCopy(context.getRuntime(), args);
             throw context.getRuntime().newNoMethodError("No method `" + name + "'", name, array);
         }
-//        return self;
+//        return context.getRuntime().getTrue();
     }
 
     private static String clsIdOrProgIdFrom(IRubyObject rubyString) {

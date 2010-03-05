@@ -2,7 +2,11 @@ require 'win32ole'
 
 #
 excel = WIN32OLE.new('Excel.Application')
-##debugger
-puts excel.object_id
-excel.Visible = true
-excel.Quit
+
+puts "PUBLIC_METHODS"
+puts excel.public_methods
+puts "PRIVATE_METHODS"
+puts excel.private_methods
+
+excel.visible= true
+#excel.Quit()
