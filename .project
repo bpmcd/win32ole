@@ -3,6 +3,7 @@
 	<name>win32ole</name>
 	<comment></comment>
 	<projects>
+		<project>jacob</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

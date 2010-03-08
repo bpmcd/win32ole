@@ -6,7 +6,7 @@ import org.jruby.RubyClass;
 import org.jruby.runtime.ObjectAllocator;
 import org.jruby.runtime.builtin.IRubyObject;
 import org.jruby.runtime.load.BasicLibraryService;
-import win32ole.WIN32OLE;
+import org.jruby.ext.win32ole.WIN32OLE;
 
 
 public class Win32oleService implements BasicLibraryService {

@@ -2,9 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="examples"/>
 	<classpathentry kind="src" path="src/java"/>
-	<classpathentry kind="lib" path="lib/jacob.jar"/>
-	<classpathentry kind="lib" path="lib/jwin32ole.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/JRuby"/>
+	<classpathentry kind="lib" path="lib/jacob.jar" sourcepath="/jacob/src"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
