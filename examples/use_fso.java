@@ -1,14 +1,12 @@
-import java.util.ArrayList;
 import java.util.Enumeration;
-import com.jacob.activeX.ActiveXComponent;
+
 import com.jacob.com.Dispatch;
-import com.jacob.com.Variant;
 import com.jacob.com.EnumVariant;
-import com.jacob.com.ComFailException;
+import com.jacob.com.Variant;
 
 // javac -cp lib\jacob.jar use_jacob.java
 // java -cp lib\jacob.jar;. -Djava.library.path=lib use_jacob
-public class use_jacob {
+public class use_fso {
 	public static void main(String[] args) {
 		// NB: You can see the typelibrary using the OleView.exe (C:\Program Files\Microsoft Visual Studio 8\Common7\Tools\Bin)
 		//     By selecting the "Type Libraries" and inside it, then "Microsoft Scripting Runtime".
@@ -31,7 +29,7 @@ public class use_jacob {
 		Dispatch fso = new Dispatch("Scripting.FileSystemObject");				// IFileSystem3
 		Dispatch folder = Dispatch.call(fso, "GetFolder", ".").toDispatch();	// IFolder
 		Dispatch files = Dispatch.get(folder, "Files").toDispatch();			// IFilesCollection
-		for (Enumeration e = new EnumVariant(files); e.hasMoreElements(); ) {
+		for (Enumeration<Variant> e = new EnumVariant(files); e.hasMoreElements(); ) {
 			Variant fileVariant = (Variant) e.nextElement();
 			Dispatch file = fileVariant.toDispatch();							// IFile
 			System.out.println(Dispatch.get(file, "Path").getString());

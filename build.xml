@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." default="build" name="jwin32ole">
+<project basedir="." default="build" name="win32ole">
   <property environment="env"/>
   <property file="build.properties"/>
 
@@ -8,7 +8,7 @@
   <property name="target.classes" value="${target}/classes"/>
   <property name="target.classes.test" value="${target}/test-classes"/>
   <property name="lib.dir" value="lib"/>
-  <property name="lib.jruby" value="../trunk/lib"/>
+  <property name="lib.jruby" value="../jruby/lib"/>
 
   <path id="build.classpath">
     <fileset dir="${lib.dir}" includes="*.jar" excludes="win32ole.jar"/>
@@ -22,6 +22,7 @@
 
   <target name="clean">
     <delete dir="target"/>
+  	<delete file="${lib.dir}/win32ole.jar"/>
   </target>
 
   <target depends="init" name="build" description="Compiles Java source files">

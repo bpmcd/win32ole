@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="examples"/>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/JRuby"/>
 	<classpathentry kind="lib" path="lib/jacob.jar" sourcepath="/jacob/src"/>
+	<classpathentry kind="lib" path="C:/java/jruby-1.5.0.RC1/lib/jruby.jar" sourcepath="/JRuby"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

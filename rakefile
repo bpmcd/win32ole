@@ -1,0 +1,20 @@
+require 'rubygems'
+require 'rake'  
+  
+begin  
+  require 'jeweler'  
+  Jeweler::Tasks.new do |gemspec|  
+    gemspec.name = "win32ole"  
+    gemspec.summary = "WIN32OLE JRuby Native Extension"  
+    gemspec.description = "WIN32OLE JRuby Native Extension"  
+    gemspec.email = "brian.p.mcdevitt@gmail.com"  
+    gemspec.homepage = "http://github.com/bpmcd/win32ole"  
+    #gemspec.description = "TODO"  
+    gemspec.authors = ["Brian McDevitt", "Tony Juckel", "Rui Lopes"]  
+  end  
+  Jeweler::GemcutterTasks.new
+rescue LoadError  
+  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"  
+end  
+  
+Dir["#{File.dirname(__FILE__)}/tasks/*.rake"].sort.each { |ext| load ext } 

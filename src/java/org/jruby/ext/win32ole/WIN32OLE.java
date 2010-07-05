@@ -1,29 +1,23 @@
 package org.jruby.ext.win32ole;
 
-
-import java.util.Iterator;
-import java.util.List;
-
 import org.jruby.Ruby;
+import org.jruby.RubyArray;
 import org.jruby.RubyClass;
 import org.jruby.RubyHash;
 import org.jruby.RubyObject;
+import org.jruby.anno.JRubyClass;
 import org.jruby.anno.JRubyMethod;
 import org.jruby.javasupport.JavaUtil;
 import org.jruby.runtime.Block;
+import org.jruby.runtime.ThreadContext;
 import org.jruby.runtime.builtin.IRubyObject;
 
 import com.jacob.activeX.ActiveXComponent;
 import com.jacob.com.ComException;
-import com.jacob.com.ComThread;
 import com.jacob.com.Dispatch;
 import com.jacob.com.EnumVariant;
 import com.jacob.com.SafeArray;
 import com.jacob.com.Variant;
-import org.jruby.RubyArray;
-import org.jruby.anno.JRubyClass;
-import org.jruby.runtime.ThreadContext;
-import org.jruby.runtime.Visibility;
 
 /**
  * PoC to implement the WIN32OLE extension.
@@ -186,17 +180,16 @@ public class WIN32OLE extends RubyObject {
 	}
 
     private static Object[] rubyToJacob(IRubyObject[] args) {
-   	 	// XXX unfortunately, there is no convertRubyArrayToJava
-    	//return JavaUtil.convertJavaArrayToRuby(args);
         Object[] result = new Object[args.length];
         for (int n = 0; n < args.length; ++n)
             result[n] = rubyToJacob(args[n]);
         return result;
     }
 
-    private static Object rubyToJacob(IRubyObject value) {
-    	// XXX convertRubyToJava can return null
-    	// XXX convertRubyToJava does not support arrays
+    @SuppressWarnings("deprecation")
+	private static Object rubyToJacob(IRubyObject value) {
+    	// NOTE: JavaUtil.convertRubyToJava can return null
+    	// NOTE: JavaUtil.convertRubyToJava does not support arrays
         if (value instanceof WIN32OLE)
             return ((WIN32OLE) value).getDispatch();
         else if (value instanceof RubyArray) {
@@ -238,15 +231,5 @@ public class WIN32OLE extends RubyObject {
     		ary.add(jacobToRuby(context, variants[i]));
     	}
     	return ary;
-    }
-    
-    @Override
-    protected void finalize() throws Throwable {
-    	try {
-    		getDispatch().safeRelease();
-    		ComThread.Release();
-    	} finally {
-    		super.finalize();
-    	}
     }
 }

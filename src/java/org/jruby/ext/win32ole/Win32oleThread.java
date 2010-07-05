@@ -6,8 +6,6 @@ package org.jruby.ext.win32ole;
 import org.jruby.Ruby;
 import org.jruby.RubyClass;
 import org.jruby.RubyModule;
-import org.jruby.RubyObject;
-import org.jruby.anno.JRubyClass;
 import org.jruby.anno.JRubyMethod;
 import org.jruby.anno.JRubyModule;
 import org.jruby.runtime.Block;
@@ -24,7 +22,12 @@ import com.jacob.com.ComThread;
 public class Win32oleThread extends RubyModule {
 	
 	
-    protected Win32oleThread(Ruby runtime) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5478671949129473081L;
+
+	protected Win32oleThread(Ruby runtime) {
 		super(runtime);
 	}
 
@@ -44,13 +47,13 @@ public class Win32oleThread extends RubyModule {
     @JRubyMethod(module=true)
     public static void inApartment(ThreadContext context, IRubyObject unused, Block block) {
 	if (((Integer)countSTA.get()).intValue() > 0)
-	    withSTA(context, block);
+	    withSTA(context, unused, block);
 	else
-	    withMTA(context, block);
+	    withMTA(context, unused, block);
     }
 
-//    @JRubyMethod(required = 1)
-    public static void withSTA(ThreadContext context, Block block) {
+    @JRubyMethod(module=true)
+    public static void withSTA(ThreadContext context, IRubyObject unused, Block block) {
 		initSTA(context);
 		try {
 		    block.yield(context, null);
@@ -59,8 +62,8 @@ public class Win32oleThread extends RubyModule {
 		}
     }
 
-//    @JRubyMethod(required = 1)
-    public static void withMTA(ThreadContext context, Block block) {
+    @JRubyMethod(module=true)
+    public static void withMTA(ThreadContext context, IRubyObject unused, Block block) {
 		initMTA(context);
 		try {
 		    block.yield(context, null);
