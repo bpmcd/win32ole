@@ -1,0 +1,16 @@
+# win32ole_com_thread_spec.rb
+require 'win32ole'
+
+describe ComThread, "#inApartment" do
+  it "raises an error when mixing STA and MTA threads" do
+    lambda {
+	  ComThread.inApartment() {
+      x = WIN32OLE.new("InternetExplorer.Application")
+      	ComThread.withSTA() {
+        	x.visible = true
+        	x.gohome
+      	}
+      }
+    }.should raise_error(RuntimeError)
+  end
+end
